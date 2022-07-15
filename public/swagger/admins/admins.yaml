@@ -1,0 +1,473 @@
+swagger: '2.0'
+
+basePath: /api/admins
+
+tags:
+  - name: admins
+    description: Manage admin
+securityDefinitions:
+  ApiKeyAuth:
+      type: apiKey
+      in  : query
+      name: token 
+
+paths:
+##############################       login        ######################################
+  /login:
+    post:
+      tags:
+        - admins
+      summary: admin login
+      description: 'admin login with jwt token'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          allowReserved: true
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A admin description. validation(min = 4 , max = 100).
+
+      responses:
+        '200':
+          description: admin object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              admin:
+                type: object
+                description: admin data.
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for admin.
+                  name:
+                    type       : string
+                    description: admin name.
+                  description:
+                    type       : string
+                    description: admin description.
+                  photo:
+                    type       : string
+                    description: admin photo.
+
+        '400':
+          description: Bad request. validation error for input fields
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      logout        ######################################
+  /logout:
+    post:
+      tags:
+        - admins
+      summary: admin logout
+      description: 'admin logout'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : header
+          name         : adminsToken
+          type         : string
+          required     : true
+
+      responses:
+        '200':
+          description: admin object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get auth admin        ######################################
+  /get/auth:
+    get:
+      tags:
+        - admins
+      summary: get admin
+      description: 'get auth admin data'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description: admin object
+          schema:
+            type: object
+            properties:
+              admin:
+                type: object
+                description: admins data.
+          
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for admin.
+                  name:
+                    type       : string
+                    description: admin name.
+                  email:
+                    type       : string
+                    description: admin email.
+                  created_at:
+                    type       : string
+                    description: admin is added at this date
+                  updated_at:
+                    type       : string
+                    description: admin is updated at this date
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      add admin        ######################################
+  /add:
+    post:
+      tags:
+        - admins
+      summary: add admin
+      description: 'add admin'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          description  : A admin email. validation(min = 10 , max = 50).
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A admin password. validation(min = 8 , max = 50).
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A admin name. validation(min = 4 , max = 20).
+
+      responses:
+        '200':
+          description: admin object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              admin:
+                type: object
+                description: admins data.
+          
+                properties:
+                  name:
+                    type       : string
+                    description: admin name.
+                  email:
+                    type       : string
+                    description: admin description.
+                  created_at:
+                    type       : string
+                    description: admin is added at this date
+                  updated_at:
+                    type       : string
+                    description: admin is updated at this date
+                  id:
+                    type       : integer
+                    description: identefier for admin.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get admins        ######################################
+  /get:
+    get:
+      tags:
+        - admins
+      summary: get admins
+      description: 'show admins with this API'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              admins:
+                type       : object
+                description: admin data.
+                properties:
+                  data:
+                    type       : object
+                    description: array contain admins object
+
+                  links:
+                  type : object
+                  description: contain links for pages
+                  properties:
+                    first_page_url:
+                        type       : string
+                        description: url for last page.
+
+                    last_page_url:
+                      type       : string
+                      description: url for last page.
+                    
+                    next_page_url:
+                      type       : string
+                      description: next page url.
+
+                    prev_page_url:
+                      type       : string
+                      description: previous page url.
+                    
+                    meta:
+                    type       : object
+                    description: contain meta data
+                    properties:
+                      path:
+                        type       : string
+                        description: page url without page query.
+
+                      per_page:
+                        type       : integer
+                        description: items number per page.
+
+                      total:
+                        type       : integer
+                        description: total number for items.
+                      
+                      current_page:
+                        type       : integer
+                        description: current page number.
+
+                      last_page:
+                        type       : integer
+                        description: last page number.
+
+        '500':
+          description: internal server error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get admins count        ######################################
+  /get/count:
+    get:
+      tags:
+        - admins
+      summary: get admins count
+      description: get admins count
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: empty message.
+
+              admins_count:
+                type: integer
+                description: total admins number.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get admins        ######################################
+  /update/{id}:
+    post:
+      tags:
+        - admins
+      summary: update admin
+      description: 'update admin'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : integer
+          required     : true
+          description  : identifier for admin.
+
+        - in           : query
+          name         : _method
+          type         : string
+          required     : true
+          description  : request method (put).
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          description  : A admin email. validation(min = 10 , max = 50).
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A admin password. validation(min = 8 , max = 50).
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A admin name. validation(min = 4 , max = 20).
+
+      responses:
+        '200':
+          description: admin object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              admin:
+                type: object
+                description: admins data.
+          
+                properties:
+                  name:
+                    type       : string
+                    description: admin name.
+                  email:
+                    type       : string
+                    description: admin description.
+                  created_at:
+                    type       : string
+                    description: admin is added at this date
+                  updated_at:
+                    type       : string
+                    description: admin is updated at this date
+                  id:
+                    type       : integer
+                    description: identefier for admin.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      delete admin        ######################################
+  /delete/{id}:
+    delete:
+      tags:
+        - admins
+      summary: delete admin
+      description: delete admin
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : integer
+          required     : true
+          description  : identifier for admin.
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []

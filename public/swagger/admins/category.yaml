@@ -1,0 +1,329 @@
+swagger: '2.0'
+info:
+  description: laravel react eco APis
+  version: 2.0.0
+  title: laravel react eco APis
+basePath: /api/admins
+tags:
+  - name: Category
+    description: Manage Category
+securityDefinitions:
+  ApiKeyAuth:
+      type: apiKey
+      in  : query
+      name: token 
+
+
+paths:
+##############################      add category        ######################################
+  /category/add:
+    post:
+      tags:
+        - Category
+      summary: create Category
+      description: 'add Category with this API'
+
+      consumes:
+        - application/json
+        - multipart/form-data
+      produces:
+        - application/json
+
+      parameters:
+        - in         : formData
+          name       : photo
+          type       : file
+          required   : true
+          description: A category photo.
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A category name. validation(min = 4 , max = 25).
+
+        - in         : formData
+          name       : description
+          type       : string
+          required   : true
+          description: A category description. validation(min = 4 , max = 100).
+
+      responses:
+        '201':
+          description: category object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              category:
+                type: object
+                description: category data.
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for category.
+                  name:
+                    type       : string
+                    description: category name.
+                  description:
+                    type       : string
+                    description: category description.
+                  photo:
+                    type       : string
+                    description: category photo.
+
+        '400':
+          description: Bad request. validation error for input fields
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get category        ######################################
+  /category/get:
+    get:
+      tags:
+        - Category
+      summary: get Categories
+      description: 'show Categories with this API'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                  type       : object
+                  description: array contain admins object
+
+              links:
+                type : object
+                description: contain links for pages
+                properties:
+                  first_page_url:
+                      type       : string
+                      description: url for last page.
+
+                  last_page_url:
+                    type       : string
+                    description: url for last page.
+                  
+                  next_page_url:
+                    type       : string
+                    description: next page url.
+
+                  prev_page_url:
+                    type       : string
+                    description: previous page url.
+                  
+                meta:
+                  type       : object
+                  description: contain meta data
+                  properties:
+                    path:
+                      type       : string
+                      description: page url without page query.
+
+                    per_page:
+                      type       : integer
+                      description: items number per page.
+
+                    total:
+                      type       : integer
+                      description: total number for items.
+                    
+                    current_page:
+                      type       : integer
+                      description: current page number.
+
+                    last_page:
+                      type       : integer
+                      description: last page number.
+
+        '500':
+          description: internal server error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      edit category        ######################################
+  /category/edit/{id}:
+    get:
+      tags:
+        - Category
+      summary: edit Categories
+      description: 'show Category which will be edit'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+        - in         : path
+          name       : id
+          type       : integer
+          required   : true
+          description: A category id.
+
+      responses:
+        '200':
+          description: category object
+          schema:
+            type: object
+            properties:
+              category:
+                type: object
+                description: category data.
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for category.
+                  name:
+                    type       : string
+                    description: category name.
+                  description:
+                    type       : string
+                    description: category description.
+                  photo:
+                    type       : string
+                    description: category photo.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      update category        ######################################
+  /category/update/{id}:
+    post:
+      tags:
+        - Category
+      summary: update Category
+      description: 'add Category with this API'
+
+      consumes:
+        - application/json
+        - multipart/form-data
+      produces:
+        - application/json
+
+      parameters:
+        - in         : query
+          name       : _method
+          type       : string
+          required   : true
+          description: request method (write put).
+
+        - in         : path
+          name       : id
+          type       : string
+          required   : true
+          description: category id.
+
+        - in         : formData
+          name       : photo
+          type       : file
+          description: A category photo.
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A category name. validation(min = 4 , max = 25).
+
+        - in         : formData
+          name       : description
+          type       : string
+          required   : true
+          description: A category description. validation(min = 4 , max = 100).
+
+      responses:
+        '200':
+          description: category object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              category:
+                type: object
+                description: category data.
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for category.
+                  name:
+                    type       : string
+                    description: category name.
+                  description:
+                    type       : string
+                    description: category description.
+                  photo:
+                    type       : string
+                    description: category photo.
+
+        '400':
+          description: Bad request. validation error for input fields
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      delete category        ######################################
+  /category/delete/{id}:
+    delete:
+      tags:
+        - Category
+      summary: edit Categories
+      description: 'show Category which will be edit'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+        - in         : path
+          name       : id
+          type       : integer
+          required   : true
+          description: A category id.
+
+      responses:
+        '200':
+          description: category object
+          schema:
+            type: object
+            properties:
+              msg:
+                type       : string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []

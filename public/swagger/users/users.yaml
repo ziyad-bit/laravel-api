@@ -1,0 +1,227 @@
+swagger: '2.0'
+
+basePath: /api/users
+
+tags:
+  - name: users
+    description: Manage user
+securityDefinitions:
+  ApiKeyAuth:
+      type: apiKey
+      in  : query
+      name: token 
+
+paths:
+##############################      signup       ######################################
+  /signup:
+    post:
+      tags:
+        - users
+      summary: user signup
+      description: user signup
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          description  : A user email. validation(min = 10 , max = 50).
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A user password. validation(min = 8 , max = 50).
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A user name. validation(min = 4 , max = 20).
+
+      responses:
+        '200':
+          description: user object with successfull message
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: successfull message.
+
+              user:
+                type: object
+                description: users data.
+          
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for user.
+                  name:
+                    type       : string
+                    description: user name.
+                  email:
+                    type       : string
+                    description: user email.
+                  created_at:
+                    type       : string
+                    description: user is added at this date
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+  ##############################       login        ######################################
+  /login:
+    post:
+      tags:
+        - users
+      summary: user login
+      description: 'user login with jwt token'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          allowReserved: true
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A user description. validation(min = 4 , max = 100).
+
+      responses:
+        '200':
+          description: user object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              user:
+                type: object
+                description: user data.
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for user.
+                  name:
+                    type       : string
+                    description: user name.
+                  description:
+                    type       : string
+                    description: user description.
+                  photo:
+                    type       : string
+                    description: user photo.
+
+        '400':
+          description: Bad request. validation error for input fields
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get auth user        ######################################
+  /get/authuser:
+    get:
+      tags:
+        - users
+      summary: get auth user
+      description: 'show auth user with this API'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              users:
+                type       : object
+                description: user data.
+                properties:
+                  - id:
+                    type       : integer
+                    description: identefier for user.
+                  - name:
+                    type       : string
+                    description: user name.
+                  - email:
+                    type       : string
+                    description: user email.
+                  - created_at:
+                    type       : string
+                    description: user is added at this date
+
+        '500':
+          description: internal server error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      logout        ######################################
+  /logout:
+    post:
+      tags:
+        - users
+      summary: user logout
+      description: 'user logout'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : header
+          name         : usersToken
+          type         : string
+          required     : true
+
+      responses:
+        '200':
+          description: user object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+

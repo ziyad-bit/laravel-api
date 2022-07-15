@@ -1,0 +1,409 @@
+swagger: '2.0'
+
+basePath: /api/admins/items
+
+tags:
+  - name: items
+    description: Manage item
+securityDefinitions:
+  ApiKeyAuth:
+      type: apiKey
+      in  : query
+      name: token 
+
+paths:
+##############################      get items        ######################################
+  /get:
+    get:
+      tags:
+        - items
+      summary: get items
+      description: 'show items with this API'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                type       : object
+                description: array contain admins object
+
+              links:
+                type : object
+                description: contain links for pages
+                properties:
+                  first_page_url:
+                      type       : string
+                      description: url for last page.
+
+                  last_page_url:
+                    type       : string
+                    description: url for last page.
+                  
+                  next_page_url:
+                    type       : string
+                    description: next page url.
+
+                  prev_page_url:
+                    type       : string
+                    description: previous page url.
+                
+                meta:
+                  type       : object
+                  description: contain meta data
+                  properties:
+                    path:
+                      type       : string
+                      description: page url without page query.
+
+                    per_page:
+                      type       : integer
+                      description: items number per page.
+
+                    total:
+                      type       : integer
+                      description: total number for items.
+                    
+                    current_page:
+                      type       : integer
+                      description: current page number.
+
+                    last_page:
+                      type       : integer
+                      description: last page number.
+
+        '500':
+          description: internal server error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      add item        ######################################
+  /add:
+    post:
+      tags:
+        - items
+      summary: add item
+      description: 'add item'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : formData
+          name         : description
+          type         : string
+          required     : true
+          description  : A item description. validation(min = 4 , max = 250).
+
+        - in         : formData
+          name       : price
+          type       : integer
+          required   : true
+          description: A item price.
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A item name. validation(min = 4 , max = 20).
+
+        - in         : formData
+          name       : status
+          type       : integer
+          required   : true
+          description: A item status.
+
+        - in         : formData
+          name       : item_id
+          type       : integer
+          required   : true
+          description: A item item.
+
+        - in         : formData
+          name       : photo
+          type       : file
+          required   : true
+          description: A item photo.
+
+      responses:
+        '200':
+          description: item object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              item:
+                type: object
+                description: items data.
+          
+                properties:
+                  name:
+                    type       : string
+                    description: item name.
+                  discrption:
+                    type       : string
+                    description: item description.
+                  price:
+                    type       : integer
+                    description: item price.
+                  created_at:
+                    type       : string
+                    description: item is added at this date
+                  updated_at:
+                    type       : string
+                    description: item is updated at this date
+                  id:
+                    type       : integer
+                    description: identefier for item.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      edit item        ######################################
+  /edit/{id}:
+    get:
+      tags:
+        - items
+      summary: edit item
+      description: 'show item which will be edit'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+        - in         : path
+          name       : id
+          type       : integer
+          required   : true
+          description: A item id.
+
+      responses:
+        '200':
+          description: item object
+          schema:
+            type: object
+            properties:
+              item:
+                type: object
+                description: item data.
+                properties:
+                  id:
+                    type       : integer
+                    description: identefier for item.
+                  name:
+                    type       : string
+                    description: item name.
+                  description:
+                    type       : string
+                    description: item description.
+                  photo:
+                    type       : string
+                    description: item photo.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      update item        ######################################
+  /update/{id}:
+    post:
+      tags:
+        - items
+      summary: update item
+      description: 'update item'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : string
+          required     : true
+          description  : item id.
+
+        - in           : query
+          name         : _method
+          type         : string
+          required     : true
+          description  : request method.
+
+        - in           : formData
+          name         : description
+          type         : string
+          required     : true
+          description  : A item description. validation(min = 4 , max = 250).
+
+        - in         : formData
+          name       : price
+          type       : integer
+          required   : true
+          description: A item price.
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A item name. validation(min = 4 , max = 20).
+
+        - in         : formData
+          name       : status
+          type       : integer
+          required   : true
+          description: A item status.
+
+        - in         : formData
+          name       : category_id
+          type       : integer
+          required   : true
+          description: A item category.
+
+        - in         : formData
+          name       : photo
+          type       : file
+          required   : true
+          description: A item photo.
+
+      responses:
+        '200':
+          description: item object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              item:
+                type: object
+                description: items data.
+          
+                properties:
+                  name:
+                    type       : string
+                    description: item name.
+                  description:
+                    type       : string
+                    description: item description.
+                  price:
+                    type       : string
+                    description: item price.
+                  created_at:
+                    type       : string
+                    description: item is added at this date
+                  updated_at:
+                    type       : string
+                    description: item is updated at this date
+                  id:
+                    type       : integer
+                    description: identefier for item.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get items count        ######################################
+  /get/count:
+    get:
+      tags:
+        - items
+      summary: get items count
+      description: get items count
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: empty message.
+
+              items_count:
+                type: integer
+                description: total items number.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      delete item        ######################################
+  /delete/{id}:
+    delete:
+      tags:
+        - items
+      summary: delete item
+      description: delete item
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : integer
+          required     : true
+          description  : identifier for item.
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []

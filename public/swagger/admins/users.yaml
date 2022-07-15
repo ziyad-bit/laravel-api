@@ -1,0 +1,365 @@
+swagger: '2.0'
+
+basePath: /api/admins/users
+
+tags:
+  - name: users
+    description: Manage user
+securityDefinitions:
+  ApiKeyAuth:
+      type: apiKey
+      in  : query
+      name: token 
+
+paths:
+##############################      get users        ######################################
+  /get:
+    get:
+      tags:
+        - users
+      summary: get users
+      description: 'show users with this API'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                type       : object
+                description: array contain admins object
+
+              links:
+                type : object
+                description: contain links for pages
+                properties:
+                  first_page_url:
+                      type       : string
+                      description: url for last page.
+
+                  last_page_url:
+                    type       : string
+                    description: url for last page.
+                  
+                  next_page_url:
+                    type       : string
+                    description: next page url.
+
+                  prev_page_url:
+                    type       : string
+                    description: previous page url.
+                
+                meta:
+                  type       : object
+                  description: contain meta data
+                  properties:
+                    path:
+                      type       : string
+                      description: page url without page query.
+
+                    per_page:
+                      type       : integer
+                      description: items number per page.
+
+                    total:
+                      type       : integer
+                      description: total number for items.
+                    
+                    current_page:
+                      type       : integer
+                      description: current page number.
+
+                    last_page:
+                      type       : integer
+                      description: last page number.
+
+        '500':
+          description: internal server error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+##############################      add user        ######################################
+  /add:
+    post:
+      tags:
+        - users
+      summary: add user
+      description: 'add user'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          description  : A user email. validation(min = 10 , max = 50).
+
+        - in           : formData
+          name         : photo
+          type         : file
+          format       : email
+          description  : A user photo.
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A user password. validation(min = 8 , max = 50).
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A user name. validation(min = 4 , max = 20).
+
+      responses:
+        '200':
+          description: user object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              user:
+                type: object
+                description: users data.
+          
+                properties:
+                  name:
+                    type       : string
+                    description: user name.
+                  email:
+                    type       : string
+                    description: user description.
+                  photo:
+                    type       : string
+                    description: user photo.
+                  created_at:
+                    type       : string
+                    description: user is added at this date
+                  updated_at:
+                    type       : string
+                    description: user is updated at this date
+                  id:
+                    type       : integer
+                    description: identefier for user.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      edit user        ######################################
+  /edit/{id}:
+    get:
+      tags:
+        - users
+      summary: delete user
+      description: delete user
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : integer
+          required     : true
+          description  : identifier for user.
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      update user        ######################################
+  /update/{id}:
+    post:
+      tags:
+        - users
+      summary: update user
+      description: 'update user'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : integer
+          required     : true
+          description  : identifier for user.
+
+        - in           : query
+          name         : _method
+          type         : string
+          required     : true
+          description  : request method (put).
+
+        - in           : formData
+          name         : email
+          type         : string
+          format       : email
+          required     : true
+          description  : A user email. validation(min = 10 , max = 50).
+
+        - in         : formData
+          name       : password
+          type       : string
+          required   : true
+          description: A user password. validation(min = 8 , max = 50).
+
+        - in         : formData
+          name       : name
+          type       : string
+          required   : true
+          description: A user name. validation(min = 4 , max = 20).
+
+      responses:
+        '200':
+          description: user object with successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+              user:
+                type: object
+                description: users data.
+          
+                properties:
+                  name:
+                    type       : string
+                    description: user name.
+                  email:
+                    type       : string
+                    description: user description.
+                  created_at:
+                    type       : string
+                    description: user is added at this date
+                  updated_at:
+                    type       : string
+                    description: user is updated at this date
+                  id:
+                    type       : integer
+                    description: identefier for user.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      get users count        ######################################
+  /get/count:
+    get:
+      tags:
+        - users
+      summary: get users count
+      description: get users count
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: empty message.
+
+              users_count:
+                type: integer
+                description: total users number.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
+
+##############################      delete user        ######################################
+  /delete/{id}:
+    delete:
+      tags:
+        - users
+      summary: delete user
+      description: delete user
+
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+
+        - in           : path
+          name         : id
+          type         : integer
+          required     : true
+          description  : identifier for user.
+
+      responses:
+        '200':
+          description:  successfull message
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: successfull message.
+
+        '401':
+          description: unauthorized. token is not found or wrong
+        '500':
+          description: internal serve error. something went wrong 
+
+      security:
+        - ApiKeyAuth: []
