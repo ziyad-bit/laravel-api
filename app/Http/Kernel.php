@@ -65,7 +65,6 @@ class Kernel extends HttpKernel
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'adminsRoutes'     => \App\Http\Middleware\adminsRoutes::class,
         'usersRoutes'      => \App\Http\Middleware\usersRoutes::class,
-        'checkpassword'    => \App\Http\Middleware\CheckPassword::class,
         'jwt.auth'         => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
     ];
 }

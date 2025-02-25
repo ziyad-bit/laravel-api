@@ -24,7 +24,7 @@ class AdminResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->name,
             'email'      => $this->email,
-            'created_at' => $this->when($req_method === "POST" || $req_method === "GET", $this->created_at),
+            'created_at' => $this->when($req_method !== "PUT" , $this->created_at),
             'updated_at' => $this->when($req_method === "PUT" , $this->updated_at),
         ];
     }

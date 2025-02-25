@@ -21,8 +21,6 @@ Route::get('/users/docs', function () {
     return view('l5-swagger.users');
 })->name('users.docs');
 
-Route::get('/{path}', function () {
-    return view('welcome');
-})->where('path','.*');
+
 
 

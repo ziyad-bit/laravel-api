@@ -42,13 +42,13 @@ paths:
 
       responses:
         '200':
-          description: admin object with successfull message
+          description: admin object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               admin:
                 type: object
@@ -56,7 +56,7 @@ paths:
                 properties:
                   id:
                     type       : integer
-                    description: identefier for admin.
+                    description: identifier for admin.
                   name:
                     type       : string
                     description: admin name.
@@ -99,13 +99,13 @@ paths:
 
       responses:
         '200':
-          description: admin object with successfull message
+          description: admin object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -141,7 +141,7 @@ paths:
                 properties:
                   id:
                     type       : integer
-                    description: identefier for admin.
+                    description: identifier for admin.
                   name:
                     type       : string
                     description: admin name.
@@ -199,13 +199,13 @@ paths:
 
       responses:
         '200':
-          description: admin object with successfull message
+          description: admin object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               admin:
                 type: object
@@ -226,7 +226,7 @@ paths:
                     description: admin is updated at this date
                   id:
                     type       : integer
-                    description: identefier for admin.
+                    description: identifier for admin.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -328,7 +328,7 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
@@ -396,13 +396,13 @@ paths:
 
       responses:
         '200':
-          description: admin object with successfull message
+          description: admin object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               admin:
                 type: object
@@ -423,7 +423,7 @@ paths:
                     description: admin is updated at this date
                   id:
                     type       : integer
-                    description: identefier for admin.
+                    description: identifier for admin.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -456,13 +456,13 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
         '401':
           description: unauthorized. token is not found or wrong

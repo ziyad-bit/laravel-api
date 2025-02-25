@@ -31,7 +31,7 @@ class AdminsController extends Controller
             return $this->returnSuccess('you successfully logged in', 'token', $token);
 
         } catch (JWTException $ex) {
-            return $this->returnError("can't create token", $ex->getStatuscode());
+            return $this->returnError("can't create token", $ex->getCode());
         }
     }
 
@@ -55,22 +55,22 @@ class AdminsController extends Controller
         try {
 
             if (!$admin = JWTAuth::parseToken()->authenticate()) {
-                return $this->returnError("user isn't found", 404);
+                return $this->returnError("user not found", 404);
             }
 
             return new AdminResource($admin);
 
         } catch (TokenExpiredException $e) {
 
-            return $this->returnError("token is expired", $e->getStatusCode());
+            return $this->returnError("token is expired", $e->getCode());
 
         } catch (TokenInvalidException $e) {
 
-            return $this->returnError("token is invalid", $e->getStatusCode());
+            return $this->returnError("token is invalid", $e->getCode());
 
         } catch (JWTException $e) {
 
-            return $this->returnError("token is absent", $e->getStatusCode());
+            return $this->returnError("token is absent", $e->getCode());
         }
 
     }

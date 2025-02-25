@@ -26,8 +26,8 @@ class AdminRequest extends FormRequest
     {
         return [
             'name'     => 'required|string|min:4|max:20',
-            'email'    => ['required','email','min:10','max:50', $this->method()=="PUT" ? Rule::unique('admins')->ignore($this->admin->id) : Rule::unique('admins')],
-            'password' => 'required|string|min:8|max:50',
+            'email'    => ['required','email','min:10','max:50',  Rule::unique('admins')->ignore($this->admin)],
+            'password' => $this->method() == 'put'?'nullable':'required'. '|string|min:8|max:50',
         ];
     }
 
