@@ -2,19 +2,21 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\JsonResponse;
+
 trait General
 {
-    public function returnError($msg, $statusCode)
+    public function returnError(string $msg,int $statusCode):JsonResponse
     {
         return response()->json([
-            'msg' => $msg,
+            'message' => $msg,
         ], $statusCode);
     }
 
-    public function returnSuccess($msg=null, $key = null, $value = null, $statusCode = 200)
+    public function returnSuccess(string $msg=null,string $key =null,$value=null,int $statusCode = 200):JsonResponse
     {
         $data=[
-            'msg' => $msg,
+            'message' => $msg,
             $key => $value,
         ];
 

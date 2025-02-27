@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admins;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminRequest;
-use App\Http\Resources\AdminResource;
 use App\Models\Admins;
 use App\Traits\General;
 use App\Traits\UploadPhoto;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Requests\AdminRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\AdminResource;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminsController extends Controller
 {
@@ -23,6 +24,7 @@ class AdminsController extends Controller
     public function login(Request $request)
     {
         try {
+
             $credentials = $request->only('email', 'password');
             if (!$token = JWTAuth::attempt($credentials)) {
                 return $this->returnError('wrong password or email', 404);
@@ -36,11 +38,10 @@ class AdminsController extends Controller
     }
 
 #######################################       logout        ##############################
-    public function logout(Request $request)
+    public function logout()
     {
         try {
-            $token = $request->header('adminsToken');
-            JWTAuth::setToken($token)->invalidate();
+            auth()->logout();
 
             return $this->returnSuccess('you successfully logged out');
 
@@ -52,27 +53,9 @@ class AdminsController extends Controller
 #######################################       get authenticated admin     ##############################
     public function getAuthenticated()
     {
-        try {
+        $admin = auth()->user();
 
-            if (!$admin = JWTAuth::parseToken()->authenticate()) {
-                return $this->returnError("user not found", 404);
-            }
-
-            return new AdminResource($admin);
-
-        } catch (TokenExpiredException $e) {
-
-            return $this->returnError("token is expired", $e->getCode());
-
-        } catch (TokenInvalidException $e) {
-
-            return $this->returnError("token is invalid", $e->getCode());
-
-        } catch (JWTException $e) {
-
-            return $this->returnError("token is absent", $e->getCode());
-        }
-
+        return new AdminResource($admin);
     }
 
 #######################################       add         ##############################

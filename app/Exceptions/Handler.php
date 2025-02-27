@@ -2,14 +2,18 @@
 
 namespace App\Exceptions;
 
+use Throwable;
+use App\Traits\General;
+use Intervention\Image\Exception\NotFoundException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Intervention\Image\Exception\NotFoundException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use General;
     /**
      * A list of the exception types that are not reported.
      *
@@ -54,17 +58,24 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            $model   = class_basename($exception->getModel());
-            
-            return response()->json([
-                'message' => "No {$model} record found"
-            ], 404);
+            $model = class_basename($exception->getModel());
+                    
+            return $this->returnError("No {$model} record found.", 404);
         }
 
         if ($exception instanceof NotFoundHttpException) {
-            return response()->json(['error' => 'url not found'], 404);
+            return $this->returnError("url not found", 404);
         }
 
+        if ($exception instanceof ValidationException) {
+            return parent::render($request, $exception);
+        }
+
+        if ($exception instanceof Throwable) {
+            return $this->returnError("something went wrong", 500);
+        }
+        
         return parent::render($request, $exception);
     }
+    
 }

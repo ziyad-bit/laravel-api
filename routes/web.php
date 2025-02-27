@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Driver\Xdebug;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/admins/docs', function () {
+    
+    return Xdebug_info();
     return view('l5-swagger.admins');
 })->name('admins.docs');
 

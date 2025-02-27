@@ -11,6 +11,7 @@ namespace App\Swagger\Admin;
  *   description="Enter JWT token in the format **Bearer <token>**"
  * )
  */
+
 class Admins
 {
     /**
