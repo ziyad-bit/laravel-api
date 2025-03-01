@@ -125,14 +125,14 @@ paths:
           description: A user name. validation(min = 4 , max = 20).
 
       responses:
-        '200':
-          description: user object with successfull message
+        '201':
+          description: user object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               user:
                 type: object
@@ -156,7 +156,7 @@ paths:
                     description: user is updated at this date
                   id:
                     type       : integer
-                    description: identefier for user.
+                    description: identifier for user.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -189,13 +189,13 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -253,13 +253,13 @@ paths:
 
       responses:
         '200':
-          description: user object with successfull message
+          description: user object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               user:
                 type: object
@@ -280,7 +280,7 @@ paths:
                     description: user is updated at this date
                   id:
                     type       : integer
-                    description: identefier for user.
+                    description: identifier for user.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -305,7 +305,7 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
@@ -348,13 +348,13 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
         '401':
           description: unauthorized. token is not found or wrong

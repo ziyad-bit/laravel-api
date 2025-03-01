@@ -18,86 +18,50 @@ class ItemsController extends Controller
     ######################################        get            ##########################
     public function get()
     {
-        try {
-            $items = Items::selection()
-                ->with(['admin'=>fn($q)=>$q->selection()
-                        ,'category'=>fn($q)=>$q->selection()])
-                ->orderBy('id', 'desc')->paginate(5);
+        $items = Items::selection()
+            ->with(['admin' => fn ($q) => $q->selection()
+                    ,'category' => fn ($q) => $q->selection()])
+            ->orderBy('id', 'desc')->paginate(5);
 
-            return  ItemResource::collection($items);
-
-        } catch (\Exception $th) {
-            return $this->returnError('something went wrong', 500);
-        }
+        return  ItemResource::collection($items);
     }
 
     ######################################        add            ##########################
     public function add(ItemRequest $request)
     {
-        try {
-            $path = $this->uploadPhoto($request, 300);
+        $path = $this->uploadPhoto($request, 300);
 
-            $item = Items::create($request->except('photo') + ['photo' => $path ,'admin_id'=>Auth::id()]);
+        $item = Items::create($request->except('photo') + ['photo' => $path ,'admin_id' => Auth::id()]);
 
-            return new ItemResource($item);
-
-        } catch (\Exception $th) {
-            return $this->returnError('something went wrong', 500);
-        }
-    }
-
-    ######################################        edit            ##########################
-    public function edit(Items $item)
-    {
-        try {
-            return new ItemResource($item);
-
-        } catch (\Exception $th) {
-            return $this->returnError('something went wrong', 500);
-        }
+        return new ItemResource($item);
     }
 
     ######################################        update           ##########################
-    public function update(ItemRequest $request,Items $item)
+    public function update(ItemRequest $request, Items $item)
     {
-        try {
-            $path = $item->photo;
-            if ($request->has('photo')) {
-                $path = $this->uploadPhoto($request, 300);
-            }
-
-            $item->update($request->except('photo') + ['photo' => $path]);
-
-            return new ItemResource($item);
-
-        } catch (\Exception $th) {
-            return $this->returnError('something went wrong', 500);
+        $path = $item->photo;
+        if ($request->has('photo')) {
+            $path = $this->uploadPhoto($request, 300);
         }
+
+        $item->update($request->except('photo') + ['photo' => $path]);
+
+        return new ItemResource($item);
     }
 
     ######################################        get count            ##########################
     public function getCount()
     {
-        try {
-            $itemsCount = Items::all()->count();
+        $itemsCount = Items::all()->count();
 
-            return $this->returnSuccess(null,'itemsCount',$itemsCount);
-
-        } catch (\Exception $th) {
-            return $this->returnError('something went wrong', 500);
-        }
+        return $this->returnSuccess(null, 'itemsCount', $itemsCount);
     }
 
     ######################################        delete            ##########################
     public function delete(Items $item)
     {
-        try {
-            $item->delete();
+        $item->delete();
 
-            return $this->returnSuccess('you successfully deleted item');
-
-        } catch (\Exception $th) {
-            return $this->returnError('something went wrong', 500);
-        }
+        return $this->returnSuccess('you successfully deleted item');
     }
 }

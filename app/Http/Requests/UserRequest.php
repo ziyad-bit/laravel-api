@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
         return [
             'name'     => 'required|string|min:4|max:20',
             'email'    => ['required','email','min:10','max:50', $this->method()==="PUT" ? Rule::unique('users')->ignore($this->user->id) : Rule::unique('users')],
-            'password' => $this->method()==="PUT" ? '':'required' .'|string|min:8|max:50',
+            'password' => isset($this->_method)  ? 'nullable':'required' .'|string|min:8|max:50',
             'photo'    => 'nullable|image|mimes:jpg,gif,jpeg,png,webp|max:14',
         ];
     }

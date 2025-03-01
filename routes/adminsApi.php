@@ -16,14 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 ###################      login         ####################################################
-
 Route::group(['prefix' => 'admins', 'namespace' => 'Admins'], function () {
     Route::post('login'   , 'AdminsController@login');
-    
 });
 
 ###################         admins          ###################################################  a
-Route::group(['prefix' => 'admins', 'namespace' => 'Admins' , 'middleware'=>['authJwt','adminsRoutes'] ], function () {
+Route::group(['prefix' => 'admins', 'namespace' => 'Admins' , 'middleware'=>'authJwt' ], function () {
     Route::post  ('logout'        , 'AdminsController@logout');
     Route::get   ('get/auth'      , 'AdminsController@getAuthenticated');
     Route::post  ('add'           , 'AdminsController@add');
@@ -34,7 +32,7 @@ Route::group(['prefix' => 'admins', 'namespace' => 'Admins' , 'middleware'=>['au
 });
 
 ###################       items         ##############################################
-Route::group(['prefix' => 'admins/items', 'namespace' => 'Admins' , 'middleware'=>['jwt.auth','adminsRoutes'] ], function () {
+Route::group(['prefix' => 'admins/items', 'namespace' => 'Admins' , 'middleware'=>'authJwt' ], function () {
     Route::get   ('get'              , 'ItemsController@get');
     Route::post  ('add'              , 'ItemsController@add');
     Route::get   ('edit/{item}'      , 'ItemsController@edit');
@@ -44,7 +42,7 @@ Route::group(['prefix' => 'admins/items', 'namespace' => 'Admins' , 'middleware'
 });
 
 ###################       users         #############################################
-Route::group(['prefix' => 'admins/users', 'namespace' => 'Admins' , 'middleware'=>['adminsRoutes' , 'jwt.auth'] ], function () {
+Route::group(['prefix' => 'admins/users', 'namespace' => 'Admins' , 'middleware'=> 'authJwt' ], function () {
     Route::get   ('get'              , 'UsersController@get');
     Route::post  ('add'              , 'UsersController@add');
     Route::get   ('edit/{user}'      , 'UsersController@edit');
@@ -54,10 +52,9 @@ Route::group(['prefix' => 'admins/users', 'namespace' => 'Admins' , 'middleware'
 });
 
 ###################       category        #############################################
-Route::group(['prefix' => 'admins/category', 'namespace' => 'Admins' , 'middleware'=>['adminsRoutes' , 'jwt.auth'] ], function () {
+Route::group(['prefix' => 'admins/category', 'namespace' => 'Admins' , 'middleware'=> 'authJwt' ], function () {
     Route::get   ('get'              , 'CategoryController@get');
     Route::post  ('add'              , 'CategoryController@add');
-    Route::get   ('edit/{category}'  , 'CategoryController@edit');
     Route::put   ('update/{category}', 'CategoryController@update');
     Route::delete('delete/{category}', 'CategoryController@delete');
 });

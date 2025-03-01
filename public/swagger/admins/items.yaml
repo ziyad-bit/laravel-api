@@ -26,7 +26,7 @@ paths:
         - application/json
 
       responses:
-        '200':
+        '201':
           description: successful operation
           schema:
             type: object
@@ -138,13 +138,13 @@ paths:
 
       responses:
         '200':
-          description: item object with successfull message
+          description: item object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               item:
                 type: object
@@ -154,7 +154,7 @@ paths:
                   name:
                     type       : string
                     description: item name.
-                  discrption:
+                  description:
                     type       : string
                     description: item description.
                   price:
@@ -168,7 +168,7 @@ paths:
                     description: item is updated at this date
                   id:
                     type       : integer
-                    description: identefier for item.
+                    description: identifier for item.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -210,7 +210,7 @@ paths:
                 properties:
                   id:
                     type       : integer
-                    description: identefier for item.
+                    description: identifier for item.
                   name:
                     type       : string
                     description: item name.
@@ -294,13 +294,13 @@ paths:
 
       responses:
         '200':
-          description: item object with successfull message
+          description: item object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               item:
                 type: object
@@ -324,7 +324,7 @@ paths:
                     description: item is updated at this date
                   id:
                     type       : integer
-                    description: identefier for item.
+                    description: identifier for item.
 
         '401':
           description: unauthorized. token is not found or wrong
@@ -349,7 +349,7 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
@@ -392,13 +392,13 @@ paths:
 
       responses:
         '200':
-          description:  successfull message
+          description:  successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
         '401':
           description: unauthorized. token is not found or wrong

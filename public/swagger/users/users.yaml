@@ -48,13 +48,13 @@ paths:
 
       responses:
         '200':
-          description: user object with successfull message
+          description: user object with successful message
           schema:
             type: object
             properties:
               message:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               user:
                 type: object
@@ -63,7 +63,7 @@ paths:
                 properties:
                   id:
                     type       : integer
-                    description: identefier for user.
+                    description: identifier for user.
                   name:
                     type       : string
                     description: user name.
@@ -109,13 +109,13 @@ paths:
 
       responses:
         '200':
-          description: user object with successfull message
+          description: user object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
               user:
                 type: object
@@ -123,7 +123,7 @@ paths:
                 properties:
                   id:
                     type       : integer
-                    description: identefier for user.
+                    description: identifier for user.
                   name:
                     type       : string
                     description: user name.
@@ -169,7 +169,7 @@ paths:
                 properties:
                   - id:
                     type       : integer
-                    description: identefier for user.
+                    description: identifier for user.
                   - name:
                     type       : string
                     description: user name.
@@ -208,13 +208,13 @@ paths:
 
       responses:
         '200':
-          description: user object with successfull message
+          description: user object with successful message
           schema:
             type: object
             properties:
               msg:
                 type: string
-                description: successfull message.
+                description: successful message.
 
         '401':
           description: unauthorized. token is not found or wrong

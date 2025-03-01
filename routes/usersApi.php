@@ -20,7 +20,7 @@ Route::group(['prefix' => 'users', 'namespace' => 'users'], function () {
 });
 
 ###################      users      ##################
-Route::group(['prefix' => 'users', 'namespace' => 'users', 'middleware'=>['usersRoutes' , 'jwt.auth']], function () {
+Route::group(['prefix' => 'users', 'namespace' => 'users', 'middleware'=> 'authJwt:users'], function () {
     Route::get ('get/auth/user'   , 'UsersController@getAuthenticatedUser');
     Route::post('logout'          , 'UsersController@logout');
 });

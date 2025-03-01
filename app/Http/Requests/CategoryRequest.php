@@ -27,7 +27,7 @@ class CategoryRequest extends FormRequest
         return [
             'name'        => ['required','min:4','max:50', $this->method()=="PUT"?Rule::unique('category')->ignore($this->category->id) : Rule::unique('category')],
             'description' => 'required|string|min:4|max:100',
-            'photo'       => $this->method()=='POST'?'required':'' . '|image|mimes:jpg,gif,jpeg,png,webp|max:14',
+            'photo'       => isset($this->_method) ?'nullable':'required' . '|image|mimes:jpg,gif,jpeg,png,webp|max:14',
         ];
     }
 

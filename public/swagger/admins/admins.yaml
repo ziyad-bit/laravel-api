@@ -98,7 +98,7 @@ paths:
           required     : true
 
       responses:
-        '200':
+        '201':
           description: admin object with successful message
           schema:
             type: object

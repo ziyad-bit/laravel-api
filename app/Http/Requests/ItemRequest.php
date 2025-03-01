@@ -26,7 +26,7 @@ class ItemRequest extends FormRequest
         return [
             'name'        => 'required|string|min:4|max:40',
             'description' => 'required|string|min:4|max:250',
-            'photo'       => $this->method()==='POST' ? 'required':'' . '|image|mimes:jpg,gif,jpeg,png,webp|max:14',
+            'photo'       => isset($this->_method)  ? 'nullable':'required' . '|image|mimes:jpg,gif,jpeg,png,webp|max:14',
             'price'       => 'required|numeric',
             'status'      => 'required|numeric',
             'category_id' => 'required|numeric',

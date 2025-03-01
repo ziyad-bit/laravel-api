@@ -27,7 +27,7 @@ class AdminRequest extends FormRequest
         return [
             'name'     => 'required|string|min:4|max:20',
             'email'    => ['required','email','min:10','max:50',  Rule::unique('admins')->ignore($this->admin)],
-            'password' => $this->method() == 'put'?'nullable':'required'. '|string|min:8|max:50',
+            'password' =>isset($this->_method) ?'nullable':'required'. '|string|min:8|max:50',
         ];
     }
 
